@@ -1,0 +1,11 @@
+{
+  "name": "oobleck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/main.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Michael Yang",
+  "license": ""
+}
