@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var babel = require("gulp-babel");
 var sourcemaps = require('gulp-sourcemaps');
+var del = require('del');
 
 var appDir = 'app';
 
@@ -12,7 +13,12 @@ gulp.task('build-js', function() {
 });
 
 gulp.task('build-html', function() {
-  return processHTML('src/**/*.html', appDir);
+  return copyFiles('src/**/*.html', appDir);
+});
+
+gulp.task('copy-libraries', function() {
+  del(appDir+'js/vendor');
+  return copyFiles('node_modules/babel-polyfill/dist/polyfill.min.js', appDir+'/js/vendor');
 });
 
 gulp.task('watch', function() {
@@ -30,7 +36,7 @@ function processJavascript(source, destination) { //, isProduction) {
     .pipe(gulp.dest(destination));
 }
 
-function processHTML(source, destination) {
+function copyFiles(source, destination) {
   return gulp.src(source)
     .pipe(gulp.dest(destination));
 }
