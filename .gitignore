@@ -1,3 +1,9 @@
+# system
 .DS_Store
+
+# node
 node_modules
 npm-debug.log
+
+# app build folder
+app
