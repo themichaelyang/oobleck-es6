@@ -1,11 +1,12 @@
 'use strict'
 
-var gulp = require('gulp');
-var babel = require("gulp-babel");
-var sourcemaps = require('gulp-sourcemaps');
-var del = require('del');
+const gulp = require('gulp');
+const babel = require("gulp-babel");
+const sourcemaps = require('gulp-sourcemaps');
+const del = require('del');
+const exec = require('child_process').exec;
 
-var appDir = 'app';
+let appDir = 'app';
 
 // for development
 gulp.task('build-js', function() {
@@ -21,8 +22,10 @@ gulp.task('copy-libraries', function() {
   return copyFiles('node_modules/babel-polyfill/dist/polyfill.min.js', appDir+'/js/vendor');
 });
 
-gulp.task('watch', function() {
-  var watcher = gulp.watch('src/**/*', ['build-js', 'build-html']);
+gulp.task('build', ['build-js', 'build-html']);
+
+gulp.task('watch', ['build'], function() {
+  var watcher = gulp.watch('src/**/*', ['build']);
   watcher.on('change', function(event) {
     console.log('File "' + event.path + '" was ' + event.type + ', running tasks...');
   });
@@ -32,6 +35,10 @@ function processJavascript(source, destination) { //, isProduction) {
   return gulp.src(source)
     .pipe(sourcemaps.init())
     .pipe(babel())
+    .on('error', e => {
+      console.log(e.stack);
+      exec('say '+e.name); // says the error name
+    })
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(destination));
 }
