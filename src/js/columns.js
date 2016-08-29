@@ -12,7 +12,11 @@ class Column {
   }
 
   update() {
-    // use to check if game is still running
+    // use to update height of column
+  }
+
+  check() {
+    // check if game is lost
   }
 
   set height(value) {

@@ -5,12 +5,12 @@ class Display {
   }
 
   drawRectangle(x, y, width, height, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, width, height);
+    this._context.fillStyle = color;
+    this._context.fillRect(x, y, width, height);
   }
 
   clear() {
-    ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 }
 
@@ -21,6 +21,7 @@ const GAME_STATES = {
   END: 'Game ended'
 }
 
+// consider reverting to a factory pattern?
 class Game { // reminder: classes aren't hoisted
   constructor(canvasElementId) {
     this._fps = 30;
@@ -48,18 +49,19 @@ class Game { // reminder: classes aren't hoisted
         this.run();
       });
 
-      update();
-      render();
+      this.update();
+      this.render();
 
     }, 1000 / this._fps);
   }
 
   update() {
-
+    // high level calls
   }
 
   render() {
-    // draw
+    // high level draw calls
+    this._display.clear();
   }
 
   reset() {
