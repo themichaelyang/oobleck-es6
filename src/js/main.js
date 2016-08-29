@@ -4,7 +4,7 @@ class Display {
     this._context = this._canvas.getContext('2d');
   }
 
-  drawRect(x, y, width, height, color) {
+  drawRectangle(x, y, width, height, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, width, height);
   }
@@ -14,10 +14,18 @@ class Display {
   }
 }
 
+const GAME_STATES = {
+  START: 'Game started',
+  RUN: 'Game running',
+  PAUSE: 'Game paused',
+  END: 'Game ended'
+}
+
 class Game { // reminder: classes aren't hoisted
   constructor(canvasElementId) {
     this._fps = 30;
     this._display = new Display(canvasElementId, 800, 600);
+    this.state = GAME_STATES.START;
   }
 
   start() {
@@ -35,7 +43,7 @@ class Game { // reminder: classes aren't hoisted
     // this.timing ? console.log(1000 / (performance.now() - this.timing)) : console.log('starting');
     // this.timing = performance.now();
 
-    setTimeout(() => { // improve game loop design
+    setTimeout(() => { // improve game loop design, decouple render and update
       window.requestAnimationFrame(() => {
         this.run();
       });
@@ -51,7 +59,6 @@ class Game { // reminder: classes aren't hoisted
   }
 
   render() {
-
     // draw
   }
 
@@ -66,4 +73,5 @@ window.onload = main;
 function main() {
   let game = new Game('game-canvas');
   game.start();
+  Object.freeze(GAME_STATES);
 }
