@@ -32,18 +32,21 @@ class Game { // reminder: classes aren't hoisted
 
   run() {
     // doesn't execute perfect ti, especially at higher fps
-    this.timing ? console.log(1000 / (performance.now() - this.timing)) : console.log('starting');
-    this.timing = performance.now();
+    // this._timing ? console.log(1000 / (performance.now() - this.timing)) : console.log('starting');
+    this._timing = performance.now();
 
-    setTimeout(() => { // improve game loop design, decouple render and update
-      this.update();
-      this.draw();
+    
 
-      window.requestAnimationFrame(() => {
-        this.run();
-      });
 
-    }, 1000 / this._fps);
+    // setTimeout(() => { // improve game loop design, decouple render and update
+    //   this.update();
+    //   this.draw();
+    //
+    //   window.requestAnimationFrame(() => {
+    //     this.run();
+    //   });
+    //
+    // }, 1000 / this._fps);
   }
 
   update() {
