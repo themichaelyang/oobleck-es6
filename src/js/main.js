@@ -7,13 +7,18 @@ const GAME_STATES = {
 
 // consider reverting to a factory pattern?
 class Game { // reminder: classes aren't hoisted
-  constructor(canvasElementSelector) {
+  constructor(width, height, canvasElementSelector, interfaceElementSelector) {
     this._fps = 30;
-    this._display = new Display(800, 600, canvasElementSelector);
+    this._display = new Display(width, height, canvasElementSelector);
+    this._interface = new Interface(width, height, interfaceElementSelector);
     this._state = GAME_STATES.START;
+
+    console.log(this);
   }
 
   init() {
+    let label = document.createElement('div');
+    this._interface.addElement('framerate', label);
     this._columns = new Columns();
   }
 
@@ -22,7 +27,9 @@ class Game { // reminder: classes aren't hoisted
     // when passed into requestAnimationFrame(this.run())
     // so we use new => syntax to fix the lexical "this"
     // window.requestAnimationFrame(this.run);
-    this.init();
+    this.init(); // maybe separate call, or put into constructor?
+    this._timing = performance.now();
+    this._framesPassed = 0;
 
     window.requestAnimationFrame(() => {
       this._state = GAME_STATES.RUN;
@@ -31,29 +38,30 @@ class Game { // reminder: classes aren't hoisted
   }
 
   run() {
-    // doesn't execute perfect ti, especially at higher fps
-    // this._timing ? console.log(1000 / (performance.now() - this.timing)) : console.log('starting');
-    this._timing = performance.now();
+    setTimeout(() => { // improve game loop design, decouple render and update
+      this.update();
+      this.draw();
 
-    
+      window.requestAnimationFrame(() => {
+        this.run();
+      });
 
-
-    // setTimeout(() => { // improve game loop design, decouple render and update
-    //   this.update();
-    //   this.draw();
-    //
-    //   window.requestAnimationFrame(() => {
-    //     this.run();
-    //   });
-    //
-    // }, 1000 / this._fps);
+    }, 1000 / this._fps);
   }
 
   update() {
     // high level calls
+    // doesn't execute perfectly, especially at higher fps
+    if (this._timing && Math.abs(performance.now() - this._timing) > 100) {
+      this._timing ? this._interface.rewriteElement('framerate', Math.round((this._framesPassed * 1000) / Math.abs(performance.now() - this._timing))) : console.log('starting');
+      this._timing = performance.now();
+      this._framesPassed = 0;
+    }
+
+    this._framesPassed += 1;
   }
 
-  draw() {
+  draw() { // draw specifically handles the game drawing
     // high level draw calls
     this._display.draw();
     this._display.clear();
@@ -68,7 +76,8 @@ class Game { // reminder: classes aren't hoisted
 window.onload = main;
 
 function main() {
-  let game = new Game('#game-canvas');
-  game.start();
   Object.freeze(GAME_STATES);
+
+  let game = new Game(800, 600, '#game-canvas', '#game-ui');
+  game.start();
 }

@@ -1,15 +1,19 @@
 class Drawing {
+  // optional canvasElementSelector
   constructor(width, height, canvasElementSelector) {
-    this._canvas = canvasElementSelector ? document.querySelector(canvasElementSelector) : document.createElement('canvas');
     // instead of drawing directly on the context, could render  images on separate contexts, then draw it onto the main canvas to handle things like layers
+    this._canvas = canvasElementSelector ? document.querySelector(canvasElementSelector) : document.createElement('canvas');
+    this._canvas.width = width;
+    this._canvas.height = height;
+
     this._context = this._canvas.getContext('2d');
   }
 
   drawFrom(otherDrawing) {
-    this._context.drawImage(otherDrawing.getDrawing());
+    this._context.drawImage(otherDrawing.getCanvas());
   }
 
-  getDrawing() {
+  getCanvas() {
     return this._canvas;
   }
 
