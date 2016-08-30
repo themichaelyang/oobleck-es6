@@ -1,3 +1,4 @@
+// could benefit by switching to a factory function
 class Drawing {
   // optional canvasElementSelector
   constructor(width, height, canvasElementSelector) {
@@ -10,7 +11,7 @@ class Drawing {
   }
 
   drawFrom(otherDrawing) {
-    this._context.drawImage(otherDrawing.getCanvas());
+    this._context.drawImage(otherDrawing.getCanvas(), 0, 0);
   }
 
   getCanvas() {
@@ -30,12 +31,12 @@ class Drawing {
   }
 }
 
-class Display extends Drawing {
-  constructor(width, height, canvasElementSelector) {
-    super(width, height, canvasElementSelector);
-  }
-
-  draw() {
-    // draw code here
-  }
-}
+// class Display extends Drawing {
+//   constructor(width, height, canvasElementSelector) {
+//     super(width, height, canvasElementSelector);
+//   }
+//
+//   draw() {
+//     // draw code here
+//   }
+// }

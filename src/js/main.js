@@ -9,9 +9,14 @@ const GAME_STATES = {
 class Game { // reminder: classes aren't hoisted
   constructor(width, height, canvasElementSelector, interfaceElementSelector) {
     this._fps = 30;
-    this._display = new Display(width, height, canvasElementSelector);
+    this._display = new Drawing(width, height, canvasElementSelector);
+    this._width = width;
+    this._height = height;
+
     this._interface = new Interface(width, height, interfaceElementSelector);
     this._state = GAME_STATES.START;
+
+    this._columns;
 
     console.log(this);
   }
@@ -19,18 +24,15 @@ class Game { // reminder: classes aren't hoisted
   init() {
     let label = document.createElement('div');
     this._interface.addElement('framerate', label);
-    this._columns = new Columns();
+    this._columns = new Columns(3, this._width, this._height);
   }
 
   start() {
-    // error where "this" becomes improperly bound
-    // when passed into requestAnimationFrame(this.run())
-    // so we use new => syntax to fix the lexical "this"
-    // window.requestAnimationFrame(this.run);
     this.init(); // maybe separate call, or put into constructor?
     this._timing = performance.now();
     this._framesPassed = 0;
 
+    // we use new => syntax to fix the lexical "this"
     window.requestAnimationFrame(() => {
       this._state = GAME_STATES.RUN;
       this.run();
@@ -63,8 +65,8 @@ class Game { // reminder: classes aren't hoisted
 
   draw() { // draw specifically handles the game drawing
     // high level draw calls
-    this._display.draw();
     this._display.clear();
+    this._columns.draw(this._display);
   }
 
   reset() {

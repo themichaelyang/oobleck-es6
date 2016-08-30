@@ -2,3 +2,8 @@ body {
   padding: 0;
   margin: 0;
 }
+
+#game-ui {
+  position: absolute;
+  padding: 10px;
+}
