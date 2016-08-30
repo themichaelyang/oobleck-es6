@@ -1,14 +1,18 @@
 class Column {
   // x, y coords of bottom left corner
   constructor(x, y, width) {
-    this._x = x; // consider using Symbols for private vars
+    this._x = x;
     this._y = y;
     this._width = width;
-    this.height = 0;
+    this._height = 50;
   }
 
-  draw(display) {
-    display.drawRectangle(this._x, this._y, this._width, this.height);
+  drawRectangle() {
+
+  }
+
+  drawTo(drawing) {
+    // context.drawRectangle(this._x, this._y, this._width, this._height);
   }
 
   update() {
@@ -19,22 +23,31 @@ class Column {
     // check if game is lost
   }
 
-  set height(value) {
-    this.height = value;
+  getHeight() {
+    return this._height;
   }
 
-  get height() {
-    return this.height;
+  setHeight(value) {
+    this._height = value;
   }
 }
 
 class Columns {
-  constructor(number, width) {
-    this._columns = new Array(number);
+  constructor(number, width, height) {
+    this._columnsArray = new Array(number);
+    // have separate canvas for processing
+    this._drawing = new Drawing(width, height);
+
     let columnWidth = width / number;
     for (let i = 0; i < number; i++) {
       let x = columnWidth * i;
-      this._columns.push(new Column(x, y));
+      this._columnsArray.push(new Column(x, y));
+    }
+  }
+
+  draw(display) {
+    for (column of this._columnsArray) {
+      column.draw();
     }
   }
 }
