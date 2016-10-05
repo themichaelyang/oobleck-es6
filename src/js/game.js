@@ -62,7 +62,19 @@ class Game { // reminder: classes aren't hoisted
     this._display.getCanvas().addEventListener('touchstart', (event) => {
       console.log('touchstart:');
       for (let touch of event.changedTouches) {
-        console.log(parseInt(touch.clientX), parseInt(touch.clientY));
+        let touchX = parseInt(touch.clientX);
+        let touchY = parseInt(touch.clientY);
+        console.log(touchX, touchY);
+
+        if (this._columns && this._columns.getLength() > 0) {
+          let columnWidth = this._width / this._columns.getLength();
+          let index = Math.floor(touchX / columnWidth);
+
+          console.log(index);
+
+          let columnTouched = this._columns.getColumn(index);
+          columnTouched._fillColor = 'blue';
+        }
       }
     });
   }

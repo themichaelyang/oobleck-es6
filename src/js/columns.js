@@ -11,12 +11,14 @@ class Column {
     this._deltaHeight = -0.002 * Math.random() - 0.0015;
     this._increasing = false;
     this._minNormalizedHeight = minNormalizedHeight;
+    this._fillColor = 'red';
   }
 
   drawTo(drawing) {
     let height = this._maxHeight * this._normalizedHeight;
     let context = drawing.getContext();
-    context.fillStyle = 'red';
+
+    context.fillStyle = this._fillColor;
     // fillRect draws from top left corner
     context.fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
   }
@@ -75,5 +77,13 @@ class Columns {
     for (let column of this._columnsArray) {
       column.update();
     }
+  }
+
+  getColumn(index) {
+    return this._columnsArray[index];
+  }
+
+  getLength() {
+    return this._columnsArray.length;
   }
 }
