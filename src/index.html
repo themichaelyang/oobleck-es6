@@ -25,10 +25,10 @@
   <!-- apply svg gooey filter from http://tympanus.net/codrops/2015/03/10/creative-gooey-effects/ -->
   <svg display="none" xmlns="http://www.w3.org/2000/svg" version="1.1">
     <defs>
-      <filter id="oobleck">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="oobleck" />
-        <feComposite in="SourceGraphic" in2="oobleck" operator="atop"/>
+      <filter id="oobleck-filter">
+        <feGaussianBlur id="oobleck-gaussian" in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="oobleck-filter" />
+        <feComposite in="SourceGraphic" in2="oobleck-filter" operator="atop"/>
       </filter>
     </defs>
   </svg>
@@ -37,7 +37,7 @@
 <body>
 
   <div id="game-ui"></div>
-  <canvas id="game-canvas" style="-webkit-filter: url('#oobleck');filter: url('#oobleck');"></canvas>
+  <canvas id="game-canvas" style="-webkit-filter: url('#oobleck-filter');filter: url('#oobleck-filter');"></canvas>
 
 </body>
 </html>

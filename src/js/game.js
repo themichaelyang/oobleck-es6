@@ -62,14 +62,17 @@ class Game { // reminder: classes aren't hoisted
 
   }
 
-  init() {
+  init(numColumns) {
     let label = document.createElement('div');
     this._interface.addElement('framerate', label);
-    this._columns = new Columns(10, this._width, this._height);
+
+    let blurValue = (this._width / numColumns) / 3;
+    document.getElementById('oobleck-gaussian').setAttribute('stdDeviation', blurValue);
+    this._columns = new Columns(numColumns, this._width, this._height);
   }
 
   start() {
-    this.init(); // maybe separate call, or put into constructor?
+    // maybe separate call, or put into constructor?
     this._timing = performance.now();
     this._framesPassed = 0;
 
