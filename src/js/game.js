@@ -65,7 +65,7 @@ class Game { // reminder: classes aren't hoisted
   init() {
     let label = document.createElement('div');
     this._interface.addElement('framerate', label);
-    this._columns = new Columns(3, this._width, this._height);
+    this._columns = new Columns(10, this._width, this._height);
   }
 
   start() {

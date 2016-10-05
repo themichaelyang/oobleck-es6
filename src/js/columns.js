@@ -10,6 +10,7 @@ class Column {
     this._normalizedHeight = 0.8; // value from 0 to 1.0
     this._deltaHeight = -0.002 * Math.random() - 0.001;
     this._increasing = false;
+    this._minHeight = 0.025;
   }
 
   drawTo(drawing) {
@@ -35,8 +36,8 @@ class Column {
   }
 
   setHeight(value) {
-    if (value <= 0) { // don't draw negative height
-      value = 0;
+    if (value <= this._minHeight) { // don't draw negative height
+      value = this._minHeight;
     }
     this._normalizedHeight = value;
   }
