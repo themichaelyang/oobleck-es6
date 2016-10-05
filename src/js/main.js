@@ -8,7 +8,7 @@ const GAME_STATES = {
 // consider reverting to a factory pattern?
 class Game { // reminder: classes aren't hoisted
   constructor(width, height, canvasElementSelector, interfaceElementSelector) {
-    this._fps = 60; // runs slightly slower than 60fps
+    // this._fps = 60; // runs slightly slower than 60fps when using setTimeout
     this._display = new Drawing(width, height, canvasElementSelector);
     this._width = width;
     this._height = height;
@@ -19,6 +19,47 @@ class Game { // reminder: classes aren't hoisted
     this._columns;
 
     console.log(this);
+  }
+
+  _run() {
+    // setTimeout causes a slowdown of the requestAnimationFrame
+    // determine fps, instead of throttling, unless for testing purposes
+      this._update();
+      this._draw();
+
+    // setTimeout(() => { // improve game loop design, decouple render and update
+      window.requestAnimationFrame(() => {
+        this._run();
+      });
+    // }, 1000 / this._fps);
+  }
+
+  _update() {
+    // high level calls
+    // doesn't execute perfectly, especially at higher fps
+    this._updateTiming();
+
+    // for ()
+  }
+
+  _updateTiming() {
+    if (this._timing && Math.abs(performance.now() - this._timing) > 100) {
+      this._timing ? this._interface.rewriteElement('framerate', Math.round((this._framesPassed * 1000) / Math.abs(performance.now() - this._timing))) : console.log('starting');
+      this._timing = performance.now();
+      this._framesPassed = 0;
+    }
+
+    this._framesPassed += 1;
+  }
+
+  _draw() { // draw specifically handles the game drawing
+    // high level draw calls
+    this._display.clear();
+    this._columns.drawTo(this._display);
+  }
+
+  reset() {
+
   }
 
   init() {
@@ -35,49 +76,8 @@ class Game { // reminder: classes aren't hoisted
     // we use new => syntax to fix the lexical "this"
     window.requestAnimationFrame(() => {
       this._state = GAME_STATES.RUN;
-      this.run();
+      this._run();
     });
-  }
-
-  run() {
-    // setTimeout causes a slowdown of the requestAnimationFrame
-    // determine fps, instead of throttling, unless for testing purposes
-      this.update();
-      this.draw();
-
-    // setTimeout(() => { // improve game loop design, decouple render and update
-      window.requestAnimationFrame(() => {
-        this.run();
-      });
-    // }, 1000 / this._fps);
-  }
-
-  update() {
-    // high level calls
-    // doesn't execute perfectly, especially at higher fps
-    this.updateTiming();
-
-    // for ()
-  }
-
-  updateTiming() {
-    if (this._timing && Math.abs(performance.now() - this._timing) > 100) {
-      this._timing ? this._interface.rewriteElement('framerate', Math.round((this._framesPassed * 1000) / Math.abs(performance.now() - this._timing))) : console.log('starting');
-      this._timing = performance.now();
-      this._framesPassed = 0;
-    }
-
-    this._framesPassed += 1;
-  }
-
-  draw() { // draw specifically handles the game drawing
-    // high level draw calls
-    this._display.clear();
-    this._columns.draw(this._display);
-  }
-
-  reset() {
-
   }
 
 }

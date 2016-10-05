@@ -7,15 +7,15 @@ class Column {
     this._y = y;
     this._width = width;
     this._maxHeight = maxHeight;
-    this._height = 0.5;
+    this._normalizedHeight = 0.5;
   }
 
   drawRectangle() {
 
   }
 
-  draw(drawing) {
-    let height = this._maxHeight * this._fraction;
+  drawTo(drawing) {
+    let height = this._maxHeight * this._normalizedHeight;
     drawing.getContext().fillStyle = 'red';
     // fillRect draws from top left corner
     drawing.getContext().fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
@@ -48,14 +48,14 @@ class Columns {
     for (let i = 0; i < numColumns; i++) {
       let y = 0;
       let x = columnWidth * i;
-      this._columnsArray.push(new Column(x / width, y, width / numColumns, height));
+      this._columnsArray.push(new Column(x, y, width / numColumns, height));
     }
     console.log(this._drawing);
   }
 
-  draw(display) {
+  drawTo(display) {
     for (let column of this._columnsArray) {
-      column.draw(this._drawing);
+      column.drawTo(this._drawing);
     }
     display.drawFrom(this._drawing);
   }
