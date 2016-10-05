@@ -7,7 +7,9 @@ class Column {
     this._y = y;
     this._width = width;
     this._maxHeight = maxHeight;
-    this._normalizedHeight = 0.5;
+    this._normalizedHeight = 0.5; // value from 0 to 1.0
+    this._deltaHeight = -0.001;
+    this._increasing = false;
   }
 
   drawRectangle() {
@@ -16,13 +18,16 @@ class Column {
 
   drawTo(drawing) {
     let height = this._maxHeight * this._normalizedHeight;
-    drawing.getContext().fillStyle = 'red';
+    let context = drawing.getContext();
+    context.fillStyle = 'red';
     // fillRect draws from top left corner
-    drawing.getContext().fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
+    context.fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
   }
 
   update() {
-    // use to update height of column
+    if (!this._increasing) {
+      this.setHeight(this._normalizedHeight + this._deltaHeight);
+    }
   }
 
   check() {
@@ -30,11 +35,11 @@ class Column {
   }
 
   getHeight() {
-    return this._height;
+    return this._normalizedHeight;
   }
 
   setHeight(value) {
-    this._height = value;
+    this._normalizedHeight = value;
   }
 }
 
@@ -54,9 +59,18 @@ class Columns {
   }
 
   drawTo(display) {
+    // clear internal canvas
+    this._drawing.clear();
+
     for (let column of this._columnsArray) {
       column.drawTo(this._drawing);
     }
     display.drawFrom(this._drawing);
+  }
+
+  update() {
+    for (let column of this._columnsArray) {
+      column.update();
+    }
   }
 }

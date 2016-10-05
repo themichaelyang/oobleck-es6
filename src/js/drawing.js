@@ -11,6 +11,7 @@ class Drawing {
   }
 
   drawFrom(otherDrawing) {
+    this.clear(); // always clear canvas before drawing from otherDrawing
     this._context.drawImage(otherDrawing.getCanvas(), 0, 0);
   }
 
