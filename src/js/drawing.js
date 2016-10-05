@@ -30,13 +30,3 @@ class Drawing {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 }
-
-// class Display extends Drawing {
-//   constructor(width, height, canvasElementSelector) {
-//     super(width, height, canvasElementSelector);
-//   }
-//
-//   draw() {
-//     // draw code here
-//   }
-// }

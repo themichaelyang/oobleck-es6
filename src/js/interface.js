@@ -22,7 +22,7 @@ class Interface {
     return this._elements[name];
   }
 
-  rewriteElement(name, content){
+  rewriteElement(name, content) {
     this.getElement(name).innerHTML = content;
   }
 

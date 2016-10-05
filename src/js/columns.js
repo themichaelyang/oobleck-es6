@@ -1,11 +1,13 @@
 class Column {
   // x, y coords of bottom left corner
+  // design of this should be responsive, react to diff screen sizes
+  // x, y, height values are floating pt
   constructor(x, y, width, maxHeight) {
     this._x = x;
     this._y = y;
     this._width = width;
     this._maxHeight = maxHeight;
-    this._height = this._maxHeight / 2;
+    this._height = 0.5;
   }
 
   drawRectangle() {
@@ -13,9 +15,10 @@ class Column {
   }
 
   draw(drawing) {
+    let height = this._maxHeight * this._fraction;
     drawing.getContext().fillStyle = 'red';
     // fillRect draws from top left corner
-    drawing.getContext().fillRect(this._x, this._maxHeight - this._height - this._y, this._width, this._height);
+    drawing.getContext().fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
   }
 
   update() {
@@ -45,7 +48,7 @@ class Columns {
     for (let i = 0; i < numColumns; i++) {
       let y = 0;
       let x = columnWidth * i;
-      this._columnsArray.push(new Column(x, y, width / numColumns, height));
+      this._columnsArray.push(new Column(x / width, y, width / numColumns, height));
     }
     console.log(this._drawing);
   }

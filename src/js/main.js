@@ -8,7 +8,7 @@ const GAME_STATES = {
 // consider reverting to a factory pattern?
 class Game { // reminder: classes aren't hoisted
   constructor(width, height, canvasElementSelector, interfaceElementSelector) {
-    this._fps = 30;
+    this._fps = 60; // runs slightly slower than 60fps
     this._display = new Drawing(width, height, canvasElementSelector);
     this._width = width;
     this._height = height;
@@ -40,20 +40,27 @@ class Game { // reminder: classes aren't hoisted
   }
 
   run() {
-    setTimeout(() => { // improve game loop design, decouple render and update
+    // setTimeout causes a slowdown of the requestAnimationFrame
+    // determine fps, instead of throttling, unless for testing purposes
       this.update();
       this.draw();
 
+    // setTimeout(() => { // improve game loop design, decouple render and update
       window.requestAnimationFrame(() => {
         this.run();
       });
-
-    }, 1000 / this._fps);
+    // }, 1000 / this._fps);
   }
 
   update() {
     // high level calls
     // doesn't execute perfectly, especially at higher fps
+    this.updateTiming();
+
+    // for ()
+  }
+
+  updateTiming() {
     if (this._timing && Math.abs(performance.now() - this._timing) > 100) {
       this._timing ? this._interface.rewriteElement('framerate', Math.round((this._framesPassed * 1000) / Math.abs(performance.now() - this._timing))) : console.log('starting');
       this._timing = performance.now();
@@ -80,6 +87,6 @@ window.onload = main;
 function main() {
   Object.freeze(GAME_STATES);
 
-  let game = new Game(800, 600, '#game-canvas', '#game-ui');
+  let game = new Game(375, 667, '#game-canvas', '#game-ui');
   game.start();
 }
