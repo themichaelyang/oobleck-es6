@@ -7,8 +7,8 @@ class Column {
     this._y = y;
     this._width = width;
     this._maxHeight = maxHeight;
-    this._normalizedHeight = 0.5; // value from 0 to 1.0
-    this._deltaHeight = -0.001;
+    this._normalizedHeight = 0.8; // value from 0 to 1.0
+    this._deltaHeight = -0.002 * Math.random() - 0.001;
     this._increasing = false;
   }
 
