@@ -2,15 +2,15 @@ class Column {
   // x, y coords of bottom left corner
   // design of this should be responsive, react to diff screen sizes
   // x, y, height values are floating pt
-  constructor(x, y, width, maxHeight) {
+  constructor(x, y, width, maxHeight, minNormalizedHeight) {
     this._x = x;
     this._y = y;
     this._width = width;
     this._maxHeight = maxHeight;
     this._normalizedHeight = 0.8; // value from 0 to 1.0
-    this._deltaHeight = -0.002 * Math.random() - 0.001;
+    this._deltaHeight = -0.002 * Math.random() - 0.0015;
     this._increasing = false;
-    this._minHeight = 0.025;
+    this._minNormalizedHeight = minNormalizedHeight;
   }
 
   drawTo(drawing) {
@@ -35,25 +35,28 @@ class Column {
     return this._normalizedHeight;
   }
 
+  // consider renaming
   setHeight(value) {
-    if (value <= this._minHeight) { // don't draw negative height
-      value = this._minHeight;
+    if (value <= this._minNormalizedHeight) { // don't draw negative height
+      value = this._minNormalizedHeight;
     }
     this._normalizedHeight = value;
   }
 }
 
 class Columns {
-  constructor(numColumns, width, height) {
+  // takes in pixel values, converts to normalized widths for Column
+  constructor(numColumns, width, height, minNormalizedHeight) {
     this._columnsArray = new Array();
     // have separate canvas for processing
     this._drawing = new Drawing(width, height);
 
     let columnWidth = width / numColumns;
+
     for (let i = 0; i < numColumns; i++) {
       let y = 0;
       let x = columnWidth * i;
-      this._columnsArray.push(new Column(x, y, width / numColumns, height));
+      this._columnsArray.push(new Column(x, y, width / numColumns, height, minNormalizedHeight));
     }
     console.log(this._drawing);
   }

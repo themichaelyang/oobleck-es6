@@ -66,9 +66,10 @@ class Game { // reminder: classes aren't hoisted
     let label = document.createElement('div');
     this._interface.addElement('framerate', label);
 
-    let blurValue = (this._width / numColumns) / 3;
+    // try to handle screen size changes in the future -- everything should be % based
+    let blurValue = (this._width / numColumns) / 3.5;
     document.getElementById('oobleck-gaussian').setAttribute('stdDeviation', blurValue);
-    this._columns = new Columns(numColumns, this._width, this._height);
+    this._columns = new Columns(numColumns, this._width, this._height, (blurValue) / this._width);
   }
 
   start() {
