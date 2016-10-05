@@ -58,11 +58,14 @@ class Column {
   }
 
   // consider renaming
-  setHeight(value) {
-    if (value <= this._minNormalizedHeight) { // don't draw negative height
-      value = this._minNormalizedHeight;
+  setHeight(newHeight) {
+    if (newHeight <= this._minNormalizedHeight) { // don't draw negative height
+      newHeight = this._minNormalizedHeight;
     }
-    this._normalizedHeight = value;
+    else if (newHeight >= 1) { // don't let height get more than 1
+      newHeight = 1;
+    }
+    this._normalizedHeight = newHeight;
   }
 }
 
