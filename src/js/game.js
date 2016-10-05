@@ -73,7 +73,7 @@ class Game { // reminder: classes aren't hoisted
           console.log(index);
 
           let columnTouched = this._columns.getColumn(index);
-          columnTouched._fillColor = 'blue';
+          columnTouched.refillHeight();
         }
       }
     });

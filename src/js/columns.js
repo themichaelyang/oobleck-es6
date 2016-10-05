@@ -8,10 +8,14 @@ class Column {
     this._width = width;
     this._maxHeight = maxHeight;
     this._normalizedHeight = 0.8; // value from 0 to 1.0
-    this._deltaHeight = -0.002 * Math.random() - 0.0015;
+    this._deltaHeight = this.getRandomDeltaHeight();
     this._increasing = false;
     this._minNormalizedHeight = minNormalizedHeight;
     this._fillColor = 'red';
+  }
+
+  getRandomDeltaHeight() {
+    return -0.002 * Math.random() - 0.001;
   }
 
   drawTo(drawing) {
@@ -23,10 +27,26 @@ class Column {
     context.fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
   }
 
+  refillHeight() {
+    this._deltaHeight = 0.01;
+    this._heightToAdd = 0.1;
+  }
+
   update() {
-    if (!this._increasing) {
-      this.setHeight(this._normalizedHeight + this._deltaHeight);
+    // if (!this._increasing) {
+    this.addHeight(this._deltaHeight);
+    if (this._heightToAdd > 0) {
+      this._heightToAdd -= this._deltaHeight;
+      if (this._heightToAdd <= 0) {
+        this._heightToAdd = 0;
+        this._deltaHeight = this.getRandomDeltaHeight();
+      }
     }
+    // }
+  }
+
+  addHeight(change) {
+    this.setHeight(this._normalizedHeight + change);
   }
 
   check() {
