@@ -12,10 +12,6 @@ class Column {
     this._increasing = false;
   }
 
-  drawRectangle() {
-
-  }
-
   drawTo(drawing) {
     let height = this._maxHeight * this._normalizedHeight;
     let context = drawing.getContext();
@@ -39,6 +35,9 @@ class Column {
   }
 
   setHeight(value) {
+    if (value <= 0) { // don't draw negative height
+      value = 0;
+    }
     this._normalizedHeight = value;
   }
 }
