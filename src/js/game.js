@@ -58,11 +58,22 @@ class Game { // reminder: classes aren't hoisted
     this._columns.drawTo(this._display);
   }
 
+  _bindTouchEvents() {
+    this._display.getCanvas().addEventListener('touchstart', (event) => {
+      console.log('touchstart:');
+      for (let touch of event.changedTouches) {
+        console.log(parseInt(touch.clientX), parseInt(touch.clientY));
+      }
+    });
+  }
+
   reset() {
 
   }
 
   init(numColumns) {
+    this._bindTouchEvents();
+
     let label = document.createElement('div');
     this._interface.addElement('framerate', label);
 
