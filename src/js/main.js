@@ -23,6 +23,6 @@ function main() {
   let game = new Game(375, 667, '#game-canvas', '#game-ui');
   game._display.getCanvas().style = '-webkit-filter: url("#oobleck-filter");filter: url("#oobleck-filter")';
 
-  game.init(10);
+  game.init(5);
   game.start();
 }
