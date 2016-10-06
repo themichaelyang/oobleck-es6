@@ -8,7 +8,7 @@ const GAME_STATES = {
 // consider reverting to a factory pattern?
 class Game { // reminder: classes aren't hoisted
   constructor(width, height, canvasElementSelector, interfaceElementSelector) {
-    // this._fps = 60; // runs slightly slower than 60fps when using setTimeout
+    // this._fps = 30; // runs slightly slower than 60fps when using setTimeout
     this._display = new Drawing(width, height, canvasElementSelector);
     this._width = width;
     this._height = height;
@@ -60,20 +60,22 @@ class Game { // reminder: classes aren't hoisted
 
   _bindTouchEvents() {
     this._display.getCanvas().addEventListener('touchstart', (event) => {
-      console.log('touchstart:');
-      for (let touch of event.changedTouches) {
-        let touchX = parseInt(touch.clientX);
-        let touchY = parseInt(touch.clientY);
-        console.log(touchX, touchY);
+        // console.log('touchstart:');
+      if (event.changedTouches.length <= 2) {
+        for (let touch of event.changedTouches) {
+          let touchX = parseInt(touch.clientX);
+          let touchY = parseInt(touch.clientY);
+            // console.log(touchX, touchY);
 
-        if (this._columns && this._columns.getLength() > 0) {
-          let columnWidth = this._width / this._columns.getLength();
-          let index = Math.floor(touchX / columnWidth);
+          if (this._columns && this._columns.getLength() > 0) {
+            let columnWidth = this._width / this._columns.getLength();
+            let index = Math.floor(touchX / columnWidth);
 
-          console.log(index);
+            // console.log(index);
 
-          let columnTouched = this._columns.getColumn(index);
-          columnTouched.refillHeight();
+            let columnTouched = this._columns.getColumn(index);
+            columnTouched.refillHeight();
+          }
         }
       }
     });

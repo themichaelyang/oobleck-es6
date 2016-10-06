@@ -17,12 +17,16 @@ gulp.task('build-html', function() {
   return copyFiles('src/**/*.html', appDir);
 });
 
+gulp.task('build-css', function() {
+  return copyFiles('src/**/*.css', appDir);
+});
+
 gulp.task('copy-libraries', function() {
   del(appDir+'js/vendor');
   return copyFiles('node_modules/babel-polyfill/dist/polyfill.min.js', appDir+'/js/vendor');
 });
 
-gulp.task('build', ['build-js', 'build-html']);
+gulp.task('build', ['build-js', 'build-html', 'build-css']);
 
 gulp.task('watch', ['build'], function() {
   var watcher = gulp.watch('src/**/*', ['build']);

@@ -22,7 +22,6 @@ class Column {
     let height = this._maxHeight * this._normalizedHeight;
     let context = drawing.getContext();
 
-    context.fillStyle = this._fillColor;
     // fillRect draws from top left corner
     context.fillRect(this._x, this._maxHeight - height - this._y, this._width, height);
   }
@@ -75,6 +74,7 @@ class Columns {
     this._columnsArray = new Array();
     // have separate canvas for processing
     this._drawing = new Drawing(width, height);
+    this._fillColor = COLORS.COLUMN_COLOR;
 
     let columnWidth = width / numColumns;
 
@@ -89,6 +89,7 @@ class Columns {
   drawTo(display) {
     // clear internal canvas
     this._drawing.clear();
+    this._drawing.getContext().fillStyle = this._fillColor; // setting fillStyle is very slow, so only set it once
 
     for (let column of this._columnsArray) {
       column.drawTo(this._drawing);
